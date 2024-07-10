@@ -1,6 +1,6 @@
 const fs = require('fs');
 const express = require('express');
-const { Client, Collection, Intents, MessageEmbed } = require('discord.js');
+const { Client, Collection, Intents } = require('discord.js');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const { clientId, guildId, adminRoleId, soracxRoleId, vanityLink } = require('./config.json');
@@ -50,8 +50,7 @@ const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
 client.once('ready', async () => {
     console.log(colors.green(figlet.textSync('Soracx Gen').trimRight()));
     console.log(colors.blue(`Logged in as ${client.user.tag}`));
-    console.log(colors.yellow(`Now you are running Soracx on v${version} Stardust`)); // Updated version display
-
+    console.log(colors.yellow(`Now you are running Soracx on v${version}`));
     rotateStatus();
     await checkAllMembersForSoracx();
 });
@@ -88,31 +87,22 @@ app.listen(PORT, () => {
 });
 
 function rotateStatus() {
+    const files = fs.readdirSync('./data').filter(file => file.endsWith('.txt'));
+
     let statusIndex = 0;
-    const statuses = [
-        { type: 'WATCHING', message: 'Soracx Gen' },
-        { type: 'WATCHING', message: getCrunchyrollStatus }
-    ];
+    const statuses = files.map(file => {
+        const fileName = file.replace('.txt', '');
+        return { type: 'WATCHING', message: `${fileName}` };
+    });
 
     setInterval(() => {
         const status = statuses[statusIndex];
         client.user.setActivity(
-            typeof status.message === 'function' ? status.message() : status.message,
+            status.message,
             { type: status.type }
         );
         statusIndex = (statusIndex + 1) % statuses.length;
     }, 10000); 
-}
-
-function getCrunchyrollStatus() {
-    try {
-        const data = fs.readFileSync('./data/CrunchyRoll.txt', 'utf8');
-        const lines = data.split('\n').filter(line => line.trim() !== '');
-        return `Crunchyroll and ${lines.length} stocks`;
-    } catch (error) {
-        console.error(colors.red('Error reading Crunchyroll data:'), error);
-        return 'Crunchyroll and stocks';
-    }
 }
 
 async function checkForSoracxRole(presence) {
