@@ -1,21 +1,19 @@
 const fs = require('fs');
-const express = require('express');
 const { Client, Collection, Intents } = require('discord.js');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const { clientId, guildId, adminRoleId, soracxRoleId, vanityLink } = require('./config.json');
-const app = require('./server');
-const colors = require('colors'); 
-const figlet = require('figlet'); 
+const colors = require('colors');
+const figlet = require('figlet');
 require('dotenv').config();
 
 const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 const version = packageJson.version;
 
-const client = new Client({ 
+const client = new Client({
     intents: [
-        Intents.FLAGS.GUILDS, 
-        Intents.FLAGS.GUILD_MESSAGES, 
+        Intents.FLAGS.GUILDS,
+        Intents.FLAGS.GUILD_MESSAGES,
         Intents.FLAGS.GUILD_PRESENCES,
         Intents.FLAGS.GUILD_MEMBERS
     ]
@@ -81,12 +79,6 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
 
 client.login(process.env.TOKEN);
 
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-    console.log(colors.cyan(`Server is running on http://localhost:${PORT}`));
-});
-
 function rotateStatus() {
     const files = fs.readdirSync('./data').filter(file => file.endsWith('.txt'));
 
@@ -103,13 +95,13 @@ function rotateStatus() {
             { type: status.type }
         );
         statusIndex = (statusIndex + 1) % statuses.length;
-    }, 10000); 
+    }, 10000);
 }
 
 async function checkForSoracxRole(presence) {
     if (!presence.activities) return;
 
-    const hasSoracxLink = presence.activities.some(activity => 
+    const hasSoracxLink = presence.activities.some(activity =>
         activity.state && activity.state.includes(vanityLink)
     );
 
@@ -153,3 +145,4 @@ async function checkAllMembersForSoracx() {
         console.error(colors.red('Error fetching members:'), error);
     }
 }
+
