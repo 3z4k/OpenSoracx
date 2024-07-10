@@ -37,7 +37,8 @@ Soracx Gen is a Discord bot designed to automate account generation and manageme
     "genChannelId": "",
     "soracxRoleId": "", 
     "restockChannelId": "",
-    "adminRoleId": ""
+    "adminRoleId": "",
+    "vanityLink": ".gg/soracx"
 }
 ```
 
