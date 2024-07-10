@@ -7,6 +7,7 @@ const { clientId, guildId, adminRoleId, soracxRoleId, vanityLink } = require('./
 const app = require('./server');
 const colors = require('colors'); 
 const figlet = require('figlet'); 
+require('dotenv').config();
 
 const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 const version = packageJson.version;
