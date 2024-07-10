@@ -1,0 +1,23 @@
+{
+  "name": "Soracx Gen Bot",
+  "version": "1.0.0 Stardust",
+  "description": "It's a gen bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "3z4k",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/rest": "^2.3.0",
+    "@types/node": "^18.0.6",
+    "axios": "^1.7.2",
+    "chalk": "^5.3.0",
+    "colors": "^1.4.0",
+    "discord-api-types": "^0.37.92",
+    "discord.js": "^13.17.1",
+    "express": "^4.19.2",
+    "figlet": "^1.7.0"
+  }
+}
