@@ -31,11 +31,13 @@ Soracx Gen is a Discord bot designed to automate account generation and manageme
 
 3.**Configure the bot:**
 ```json
-{
-  "clientId": "YOUR_CLIENT_ID",
-  "guildId": "YOUR_GUILD_ID",
-  "adminRoleId": "YOUR_ADMIN_ROLE_ID",
-  "soracxRoleId": "YOUR_SORACX_ROLE_ID"
+{ 
+    "clientId": "",
+    "guildId": "",
+    "genChannelId": "",
+    "soracxRoleId": "", 
+    "restockChannelId": "",
+    "adminRoleId": ""
 }
 ```
 
