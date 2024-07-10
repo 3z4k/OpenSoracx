@@ -44,6 +44,9 @@ Soracx Gen is a Discord bot designed to automate account generation and manageme
 4.**Create a `.env`**
 ```TOKEN=YOUR_DISCORD_BOT_TOKEN```
 
+5. **START THE BOT**
+```node index.js```
+
 **Usage**
 * **Commands:** Interact with the bot using slash commands in Discord. Admin-only commands are restricted to users with the admin role.
 * **Status Rotation:** The bot will automatically rotate its status messages every 10 seconds.
