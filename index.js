@@ -3,7 +3,7 @@ const express = require('express');
 const { Client, Collection, Intents, MessageEmbed } = require('discord.js');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
-const { clientId, guildId, adminRoleId, soracxRoleId } = require('./config.json');
+const { clientId, guildId, adminRoleId, soracxRoleId, vanityLink } = require('./config.json'); // Added vanityLink
 const app = require('./server');
 const colors = require('colors'); 
 const figlet = require('figlet'); 
@@ -50,7 +50,7 @@ const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
 client.once('ready', async () => {
     console.log(colors.green(figlet.textSync('Soracx Gen').trimRight()));
     console.log(colors.blue(`Logged in as ${client.user.tag}`));
-    console.log(colors.yellow(`Now you are running Soracx on v${version}`));
+    console.log(colors.yellow(`Now you are running Soracx on v${version} Stardust`)); // Updated version display
 
     rotateStatus();
     await checkAllMembersForSoracx();
@@ -118,9 +118,8 @@ function getCrunchyrollStatus() {
 async function checkForSoracxRole(presence) {
     if (!presence.activities) return;
 
-    const soracxLink = '.gg/soracx';
     const hasSoracxLink = presence.activities.some(activity => 
-        activity.state && activity.state.includes(soracxLink)
+        activity.state && activity.state.includes(vanityLink)
     );
 
     const member = presence.member;
