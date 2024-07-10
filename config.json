@@ -4,5 +4,6 @@
     "genChannelId": "",
     "soracxRoleId": "", 
     "restockChannelId": "",
-    "adminRoleId": ""
+    "adminRoleId": "",
+    "token": ""
 }
