@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
+const AsciiTable = require('ascii-table');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -12,7 +13,7 @@ module.exports = {
 
         if (files.length === 0) {
             const embed = new MessageEmbed()
-                .setColor('#0099ff')
+                .setColor('#2B2D31')
                 .setTitle('Available Stocks')
                 .setDescription('No services available.')
                 .setFooter('Credits to Soracx');
@@ -21,18 +22,22 @@ module.exports = {
             return;
         }
 
-        const stockDescriptions = files.map(file => {
+        let table = new AsciiTable('Available Stocks');
+        table.setHeading('Service', 'Availability');
+
+        files.forEach(file => {
             const service = file.replace('.txt', '');
             const accounts = fs.readFileSync(path.join(__dirname, `../data/${file}`), 'utf8').split('\n').filter(Boolean).length;
-            return `${service}: ${accounts} accounts`;
-        }).join('\n');
+            table.addRow(service, `${accounts} accounts`);
+        });
 
         const embed = new MessageEmbed()
-            .setColor('#0099ff')
-            .setTitle('Available Stocks')
-            .setDescription(stockDescriptions)
+            .setColor('#2B2D31')
+            .setDescription('```\n' + table.toString() + '\n```')
             .setFooter('Credits to Soracx');
 
         await interaction.reply({ embeds: [embed] });
     },
 };
+
+
