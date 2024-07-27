@@ -2,13 +2,15 @@ const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
-const { clientId, guildId, adminRoleId, soracxRoleId, vanityLink } = require('./config.json');
 const colors = require('colors');
 const figlet = require('figlet');
 require('dotenv').config();
 
 const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 const version = packageJson.version;
+const author = packageJson.author;
+
+const { clientId, guildId, adminRoleId, soracxRoleId, vanityLink } = require('./config.json');
 
 const client = new Client({
     intents: [
@@ -29,6 +31,10 @@ for (const file of commandFiles) {
     commands.push(command.data.toJSON());
 }
 
+const totalCommands = commandFiles.length;
+const stockFiles = fs.readdirSync('./data').filter(file => file.endsWith('.txt'));
+const totalStocks = stockFiles.length;
+
 const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
 
 (async () => {
@@ -47,9 +53,23 @@ const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
 })();
 
 client.once('ready', async () => {
-    console.log(colors.green(figlet.textSync('Soracx Gen').trimRight()));
-    console.log(colors.blue(`Logged in as ${client.user.tag}`));
-    console.log(colors.yellow(`Now you are running Soracx on v${version}`));
+    const asciiArt = figlet.textSync('Soracx Gen', { font: 'Slant' }).trimRight();
+    const userTag = client.user.tag;
+    const lines = asciiArt.split('\n');
+    const longestLineLength = Math.max(...lines.map(line => line.length));
+
+    const paddedLines = lines.map((line, index) => {
+        let infoLine = '';
+        if (index === 0) infoLine = userTag;
+        else if (index === 1) infoLine = `Version: ${version}`;
+        else if (index === 2) infoLine = `Total Stocks: ${totalStocks}`;
+        else if (index === 3) infoLine = `Total Commands: ${totalCommands}`;
+        else if (index === 4) infoLine = `Developer: ${author}`;
+        return line + ' '.repeat(longestLineLength - line.length) + '   ' + infoLine;
+    });
+
+    paddedLines.forEach(line => console.log(colors.green(line)));
+
     rotateStatus();
     await checkAllMembersForSoracx();
 });
