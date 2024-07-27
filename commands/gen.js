@@ -10,8 +10,6 @@ function getServiceChoices() {
     return files.map(file => ({ name: file.replace('.txt', ''), value: file.replace('.txt', '') }));
 }
 
-const serviceChoices = getServiceChoices();
-
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('gen')
@@ -20,18 +18,19 @@ module.exports = {
             option.setName('service')
                 .setDescription('The name of the service')
                 .setRequired(true)
-                .addChoices(...serviceChoices) 
+                .addChoices(...getServiceChoices())
         ),
     async execute(interaction) {
+        const serviceChoices = getServiceChoices();
+        const service = interaction.options.getString('service');
+        const filePath = path.join(__dirname, `../data/${service}.txt`);
+
         if (interaction.channelId !== genChannelId) {
             return interaction.reply({
                 content: `This command can only be used in the <#${genChannelId}> channel.`,
                 ephemeral: true
             });
         }
-
-        const service = interaction.options.getString('service');
-        const filePath = path.join(__dirname, `../data/${service}.txt`);
 
         let embed = new MessageEmbed()
             .setColor('#2B2D31')
@@ -74,6 +73,5 @@ module.exports = {
                 .setDescription(`Service **${service}** does not exist.`);
         }
 
-        await interaction.reply({ embeds: [embed], ephemeral: true });
+        await interaction.reply({ embeds: [embed], ephemeral: false });
     },
-};
