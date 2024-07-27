@@ -4,6 +4,14 @@ const fs = require('fs');
 const path = require('path');
 const { genChannelId } = require('../config.json');
 
+function getServiceChoices() {
+    const dataPath = path.join(__dirname, '../data');
+    const files = fs.readdirSync(dataPath).filter(file => file.endsWith('.txt'));
+    return files.map(file => ({ name: file.replace('.txt', ''), value: file.replace('.txt', '') }));
+}
+
+const serviceChoices = getServiceChoices();
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('gen')
@@ -11,7 +19,9 @@ module.exports = {
         .addStringOption(option => 
             option.setName('service')
                 .setDescription('The name of the service')
-                .setRequired(true)),
+                .setRequired(true)
+                .addChoices(...serviceChoices) 
+        ),
     async execute(interaction) {
         if (interaction.channelId !== genChannelId) {
             return interaction.reply({
@@ -24,7 +34,7 @@ module.exports = {
         const filePath = path.join(__dirname, `../data/${service}.txt`);
 
         let embed = new MessageEmbed()
-            .setColor('#0099ff')
+            .setColor('#2B2D31')
             .setFooter('Credits to Soracx');
 
         if (fs.existsSync(filePath)) {
@@ -34,12 +44,13 @@ module.exports = {
                 fs.writeFileSync(filePath, accounts.join('\n'), 'utf8');
 
                 const [username, password] = account.split(':');
+                const accountDisplay = password ? `${username}:${password}` : username;
                 const dmEmbed = new MessageEmbed()
-                    .setColor('#0099ff')
+                    .setColor('#2B2D31')
                     .setTitle('Generated Account')
                     .addFields(
-                        { name: 'ACCOUNT USERNAME', value: `\`\`\`${username}\`\`\``, inline: false },
-                        { name: 'ACCOUNT PASSWORD', value: `\`\`\`${password}\`\`\``, inline: false }
+                        { name: 'Service Name', value: `\`\`\`${service}\`\`\``, inline: true },
+                        { name: 'Account Credentials', value: `\`\`\`${accountDisplay}\`\`\``, inline: true }
                     )
                     .setFooter('Credits to Soracx');
 
