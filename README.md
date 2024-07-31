@@ -22,7 +22,7 @@ Soracx Gen is a Discord bot designed to automate account generation and manageme
 
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/3z4k/soracx-gen.git
+   git clone https://github.com/3z4k/OpenSoracx.git
    cd soracx-gen
    
 2. **Install dependencies:**
