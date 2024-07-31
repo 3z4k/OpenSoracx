@@ -54,6 +54,5 @@ Soracx Gen is a Discord bot designed to automate account generation and manageme
 * **Automatic Role Management:** The bot will manage the Soracx role based on user presence activities.
 ![Screen recording 2024-07-10 12 02 47 PM](https://github.com/3z4k/Soracx-GenBot/assets/91467994/ba8bca97-7549-4222-98d4-4e7f682e79f8)
 
-
-## IF YOU NEED ANY HELP RELATED TO THIS REPO MAKE SURE TO JOIN discord.gg/soracx
+## IF YOU NEED ANY HELP RELATED TO THIS REPO MAKE SURE TO JOIN https://discord.gg/7gqSZSQKpf
 
