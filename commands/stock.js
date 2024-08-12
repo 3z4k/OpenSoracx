@@ -9,35 +9,43 @@ module.exports = {
         .setName('stock')
         .setDescription('Displays available stocks.'),
     async execute(interaction) {
-        const files = fs.readdirSync(path.join(__dirname, '../data')).filter(file => file.endsWith('.txt'));
+        const freePath = path.join(__dirname, '../data/FreeGen');
+        const premiumPath = path.join(__dirname, '../data/PremiumGen');
 
-        if (files.length === 0) {
-            const embed = new MessageEmbed()
-                .setColor('#2B2D31')
-                .setTitle('Available Stocks')
-                .setDescription('No services available.')
-                .setFooter('Credits to Soracx');
+        const freeFiles = fs.readdirSync(freePath).filter(file => file.endsWith('.txt'));
+        const premiumFiles = fs.readdirSync(premiumPath).filter(file => file.endsWith('.txt'));
 
-            await interaction.reply({ embeds: [embed] });
-            return;
+        let freeTable = new AsciiTable('Free Stock');
+        freeTable.setHeading('Service', 'Availability');
+
+        if (freeFiles.length > 0) {
+            freeFiles.forEach(file => {
+                const service = file.replace('.txt', '');
+                const accounts = fs.readFileSync(path.join(freePath, file), 'utf8').split('\n').filter(Boolean).length;
+                freeTable.addRow(service, `${accounts} accounts`);
+            });
+        } else {
+            freeTable.addRow('No services available.', '');
         }
 
-        let table = new AsciiTable('Available Stocks');
-        table.setHeading('Service', 'Availability');
+        let premiumTable = new AsciiTable('Premium Stock');
+        premiumTable.setHeading('Service', 'Availability');
 
-        files.forEach(file => {
-            const service = file.replace('.txt', '');
-            const accounts = fs.readFileSync(path.join(__dirname, `../data/${file}`), 'utf8').split('\n').filter(Boolean).length;
-            table.addRow(service, `${accounts} accounts`);
-        });
+        if (premiumFiles.length > 0) {
+            premiumFiles.forEach(file => {
+                const service = file.replace('.txt', '');
+                const accounts = fs.readFileSync(path.join(premiumPath, file), 'utf8').split('\n').filter(Boolean).length;
+                premiumTable.addRow(service, `${accounts} accounts`);
+            });
+        } else {
+            premiumTable.addRow('No services available.', '');
+        }
 
-        const embed = new MessageEmbed()
+             const embed = new MessageEmbed()
             .setColor('#2B2D31')
-            .setDescription('```\n' + table.toString() + '\n```')
+            .setDescription('```\n' + freeTable.toString() + '\n```\n```\n' + premiumTable.toString() + '\n```')
             .setFooter('Credits to Soracx');
-
         await interaction.reply({ embeds: [embed] });
     },
 };
-
 
