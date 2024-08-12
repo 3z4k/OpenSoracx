@@ -1,4 +1,5 @@
 const fs = require('fs');
+const express = require('express');
 const { Client, Collection, Intents } = require('discord.js');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
@@ -10,7 +11,7 @@ const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 const version = packageJson.version;
 const author = packageJson.author;
 
-const { clientId, guildId, adminRoleId, soracxRoleId, vanityLink } = require('./config.json');
+const { clientId, guildId, adminRoleId, freegenroleid, premiumgenroleid, vanityLink, premiumGenChannelId, genChannelId } = require('./config.json');
 
 const client = new Client({
     intents: [
@@ -100,10 +101,11 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
 client.login(process.env.TOKEN);
 
 function rotateStatus() {
-    const files = fs.readdirSync('./data').filter(file => file.endsWith('.txt'));
+    const freeFiles = fs.readdirSync('./data/FreeGen').filter(file => file.endsWith('.txt'));
+    const premiumFiles = fs.readdirSync('./data/PremiumGen').filter(file => file.endsWith('.txt'));
 
     let statusIndex = 0;
-    const statuses = files.map(file => {
+    const statuses = [...freeFiles, ...premiumFiles].map(file => {
         const fileName = file.replace('.txt', '');
         return { type: 'WATCHING', message: `${fileName}` };
     });
@@ -126,21 +128,21 @@ async function checkForSoracxRole(presence) {
     );
 
     const member = presence.member;
-    const role = presence.guild.roles.cache.get(soracxRoleId);
+    const role = presence.guild.roles.cache.get(freegenroleid);
 
     if (hasSoracxLink) {
-        if (!member.roles.cache.has(soracxRoleId)) {
+        if (!member.roles.cache.has(freegenroleid)) {
             try {
-                await member.roles.add(role);
+                await member.roles.add(role.id);
                 console.log(colors.green(`Assigned Soracx role to ${member.user.tag}`));
             } catch (error) {
                 console.error(colors.red(`Error assigning role to ${member.user.tag}:`), error);
             }
         }
     } else {
-        if (member.roles.cache.has(soracxRoleId)) {
+        if (member.roles.cache.has(freegenroleid)) {
             try {
-                await member.roles.remove(role);
+                await member.roles.remove(role.id);
                 console.log(colors.green(`Removed Soracx role from ${member.user.tag}`));
             } catch (error) {
                 console.error(colors.red(`Error removing role from ${member.user.tag}:`), error);
@@ -165,4 +167,3 @@ async function checkAllMembersForSoracx() {
         console.error(colors.red('Error fetching members:'), error);
     }
 }
-
