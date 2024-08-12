@@ -1,9 +1,11 @@
-{ 
+{
     "clientId": "",
     "guildId": "",
     "genChannelId": "",
-    "soracxRoleId": "", 
+    "freegenroleid": "",
+    "premiumgenroleid": "",
     "restockChannelId": "",
     "adminRoleId": "",
-    "vanityLink": ".gg/soracx"
+    "vanityLink": "",
+    "premiumGenChannelId": ""
 }
