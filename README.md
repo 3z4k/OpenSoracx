@@ -1,11 +1,11 @@
 ![Soracx](https://cdn.discordapp.com/attachments/1259785538144309329/1260118897928044625/ar_1.png?ex=668e28ad&is=668cd72d&hm=4acdbafa83010edf7c17619ac4b7c0a1b47119f17579c80ac3d93c234d035014&)
 
 
-*# Soracx Gen*
+*# OPENSORACX*
 
 ## Overview
 
-Soracx Gen is a Discord bot designed to automate account generation and management tasks. It provides a streamlined interface using Discord slash commands for efficient interaction.
+OPENSORACX is a Discord bot designed to automate account generation and management tasks. It provides a streamlined interface using Discord slash commands for efficient interaction.
 
 ## Features
 
