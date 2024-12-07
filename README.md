@@ -49,7 +49,7 @@ OPENSORACX is a Discord bot designed to automate account generation and manageme
 TOKEN=YOUR_DISCORD_BOT_TOKEN
 CLIENT_ID=
 GUILD_ID=
-
+```
 5. **START THE BOT**
 ```node index.js```
 
