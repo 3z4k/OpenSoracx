@@ -1,7 +1,7 @@
 ![Soracx](https://cdn.discordapp.com/attachments/1259785538144309329/1260118897928044625/ar_1.png?ex=668e28ad&is=668cd72d&hm=4acdbafa83010edf7c17619ac4b7c0a1b47119f17579c80ac3d93c234d035014&)
 
 
-*# OPENSORACX*
+**OPENSORACX**
 
 ## Overview
 
@@ -45,7 +45,10 @@ OPENSORACX is a Discord bot designed to automate account generation and manageme
 ```
 
 4.**Create a `.env`**
-```TOKEN=YOUR_DISCORD_BOT_TOKEN```
+```sh
+TOKEN=YOUR_DISCORD_BOT_TOKEN
+CLIENT_ID=
+GUILD_ID=
 
 5. **START THE BOT**
 ```node index.js```
